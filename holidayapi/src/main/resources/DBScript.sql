@@ -1,0 +1,9 @@
+USE holiday_db;
+
+CREATE TABLE `holidays` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  country VARCHAR(50) NOT NULL,
+  NAME VARCHAR(100) NOT NULL,
+  DATE DATE NOT NULL,
+  UNIQUE (country, NAME, DATE)
+);
