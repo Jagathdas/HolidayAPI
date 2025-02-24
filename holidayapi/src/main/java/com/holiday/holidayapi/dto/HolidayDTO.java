@@ -1,8 +1,11 @@
 package com.holiday.holidayapi.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,15 +16,21 @@ import java.time.LocalDate;
 @Getter
 public class HolidayDTO {
 
-    @NotNull(message = "Country is required")
+	
+	@NotEmpty(message = "Country name cannot be empty")
     @Size(min = 2, max = 50, message = "Country name must be between 2 and 50 characters")
+	@Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Country name must contain only letters and spaces")
     private String country;
 
-    @NotNull(message = "Holiday name is required")
+	
+	
+	@NotEmpty(message = "Holiday name cannot be empty")
     @Size(min = 2, max = 100, message = "Holiday name must be between 2 and 100 characters")
+	@Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Holiday description must contain only letters and spaces")
     private String name;
 
-    @NotNull(message = "Holiday date is required and Invalid date format Please use YYYY-MM-DD\"")
+    @NotNull(message = "Holiday date is required")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Holiday date cannot be in the past")
     private LocalDate date;
 
