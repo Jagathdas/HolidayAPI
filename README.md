@@ -65,7 +65,7 @@ date (required): The date of the holiday (in yyyy-MM-dd format).
 Example Request:
 bash
 Copy
-POST http://localhost:8080/api/holidays
+POST http://localhost:8080/api/holidays/add
 Content-Type: application/json
 
 {
@@ -176,7 +176,7 @@ To test the POST endpoint to add a new holiday:
 
 bash
 Copy
-curl -X POST "http://localhost:8080/api/holidays" -H "Content-Type: application/json" -d '{
+curl -X POST "http://localhost:8080/api/holidays/add" -H "Content-Type: application/json" -d '{
   "country": "USA",
   "name": "Labor Day",
   "date": "2025-09-01"
