@@ -11,6 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface HolidayRepository extends JpaRepository<Holiday, Long> {
-    List<Holiday> findByCountry(String country);
-    Optional<Holiday> findByCountryAndNameAndDate(String country, String name, LocalDate date);
+    List<Holiday> findByCountryName(String country);
+    // Find holiday by ID and Country Code
+    Holiday findByIdAndCountryCountryCode(Long id, String countryCode);
+
+    // Find holiday by Country Code and Holiday Date
+    Holiday findByCountryCountryCodeAndHolidayDate(String countryCode, LocalDate holidayDate);
+    
+    List<Holiday> findByCountryCountryCode(String countryCode); 
 }

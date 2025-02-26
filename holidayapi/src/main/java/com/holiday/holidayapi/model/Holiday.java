@@ -9,9 +9,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.Setter;
 import lombok.Getter;
@@ -20,37 +25,34 @@ import lombok.Getter;
 @Setter
 @Getter
 @Entity
-@Table(name="holidays")
+@Table(name="Federal_holidays")
 public class Holiday {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull(message = "Country cannot be null")
-    @Size(min = 2, max = 50, message = "Country name must be between 2 and 50 characters")
-    @Column(nullable = false)
-    private String country;
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @JsonIgnore 
+	    private Long Id;
+	    
+	    @ManyToOne
+	    @JoinColumn(name = "country_code", referencedColumnName = "countryCode", nullable = false)
+	    private Country country;
+	    @JsonIgnore 
+	    private String countryName;
+	    private String holidayName;
+	    private LocalDate holidayDate;
+	    @JsonIgnore
+	    private String dayOfWeek;
 
-    @NotNull(message = "Holiday name cannot be null")
-    @Size(min = 2, max = 100, message = "Holiday name must be between 2 and 100 characters")
-    @Column(nullable = false)
-    private String name;
+	   
+	    // Set the day of the week based on the holidayDate
+	    public void setDayOfWeek() {
+	        if (holidayDate != null) {
+	            this.dayOfWeek = holidayDate.getDayOfWeek().toString(); // Sets the day of the week as a string (e.g., "MONDAY")
+	        }
+	    }
 
-    @NotNull(message = "Date cannot be null")
-    private LocalDate date;
 
-    // Constructors, getters and setters
 
-    public Holiday() {
-    }
-
-    public Holiday(String country, String name, LocalDate date) {
-        this.country = country;
-        this.name = name;
-        this.date = date;
-    }
-
-    // Getters and Setters
 }
 
