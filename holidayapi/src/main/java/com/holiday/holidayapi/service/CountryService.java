@@ -8,6 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.holiday.holidayapi.model.Country;
 import com.holiday.holidayapi.repository.CountryRepository;
 
+
+
 import java.util.Optional;
 
 @Service
@@ -19,13 +21,21 @@ public class CountryService {
     // Method to add a country
     public Country addCountry(Country country) {
         
-    	// Check if the country exists
+    // Check if the country exists
         Country countryDetails = countryRepository.findByCountryCodeAndCountryName(country.getCountryCode(), country.getCountryName());
-        if (countryDetails == null) {
+        if (countryDetails != null) {
+        	 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country Code and Country Name already exist: " + country);
            
-            return countryRepository.save(country);
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code does not exist: " + country);
+     // Check if the country with the same country code already exists in the database
+        Country countryCode = countryRepository.findByCountryCode(country.getCountryCode());
+        
+        if (countryCode != null) {
+            // If a country with the same country code exists, do not add it to the database
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country Code already exists for other Country Name.");
+        }
+        return countryRepository.save(country);
+    
     }
 
     // Method to delete a country by countryCode
@@ -34,7 +44,7 @@ public class CountryService {
         if (country.isPresent()) {
             countryRepository.delete(country.get());
         } else {
-            throw new RuntimeException("Country not found");
+            throw new RuntimeException("Country Code not found");
         }
     }
 }

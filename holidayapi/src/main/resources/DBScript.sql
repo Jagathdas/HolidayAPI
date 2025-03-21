@@ -30,17 +30,5 @@ DELIMITER ;
 
 
 
-
-CREATE TABLE `Federal_holidays` (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  ---- ADD country CODE - FOregien KEY
-  country VARCHAR(50) NOT NULL,  ----country NAME
-  NAME VARCHAR(100) NOT NULL, -- hiliday name
-  DATE DATE NOT NULL,  --- holiday DATE
-  UNIQUE (countrycode, countryname, DATE)
-  
-  based DATE get DAY OF the WEEK (monday,saturday)
-);
-
 DROP TABLE federal_holidays;
 

@@ -1,10 +1,11 @@
 package com.holiday.holidayapi.model;
 
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -37,10 +39,19 @@ public class Holiday {
 	    @ManyToOne
 	    @JoinColumn(name = "country_code", referencedColumnName = "countryCode", nullable = false)
 	    private Country country;
+	    
 	    @JsonIgnore 
 	    private String countryName;
-	    private String holidayName;
+	    
+	    
+	     private String holidayName;
+	    
+	   
+	   // @FutureOrPresent(message = "Holiday date cannot be in the future")
+	   // @ValidDateFormat(message = "Holiday date must be in the format yyyy-MM-dd")
+	   // @JsonFormat(pattern = "yyyy-MM-dd") 
 	    private LocalDate holidayDate;
+	    
 	    @JsonIgnore
 	    private String dayOfWeek;
 
@@ -51,8 +62,6 @@ public class Holiday {
 	            this.dayOfWeek = holidayDate.getDayOfWeek().toString(); // Sets the day of the week as a string (e.g., "MONDAY")
 	        }
 	    }
-
-
 
 }
 
